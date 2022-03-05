@@ -4,6 +4,10 @@ public class Sudoku implements SudokuSolver{
 	private int[][] grid;
 	
 	
+	public Sudoku() {
+		grid = new int[9][9];
+	}
+	
 	@Override
 	public boolean solve() {
 		return solve(0, 0);
