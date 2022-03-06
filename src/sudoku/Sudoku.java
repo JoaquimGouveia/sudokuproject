@@ -147,7 +147,7 @@ public class Sudoku implements SudokuSolver{
 		return row >= 0 && row < 9 && col >= 0 && col < 9 && checkDigit(digit);
 	}
 	
-	private Boolean checkDigit(int digit) {
+	public Boolean checkDigit(int digit) {
 		return digit > 0 && digit < 10;
 	}
 }
