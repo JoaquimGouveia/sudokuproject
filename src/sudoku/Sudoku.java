@@ -1,5 +1,7 @@
 package sudoku;
 
+import java.util.Arrays;
+
 public class Sudoku implements SudokuSolver{
 	private int[][] grid;
 	
@@ -17,14 +19,14 @@ public class Sudoku implements SudokuSolver{
 		int newRow = row;
 		int newCol = col;
 		
+		if (newRow == 9) {
+			return true;}
+		
 		if (newCol != 8) {
 			newCol = col + 1;
 		} else {
 			newCol = 0;					//Sätter nya värden på Row och Col inför nästa anrop av solve
 			newRow += 1;
-		}
-		if (newRow == 9) {
-			return true;
 		}
 		if (grid[row][col] == 0) {
 			for (int i = 1; i < 10; i++) {    //checkar för alla möjliga värden som en digit kan anta
@@ -150,4 +152,14 @@ public class Sudoku implements SudokuSolver{
 	public Boolean checkDigit(int digit) {
 		return digit > 0 && digit < 10;
 	}
+	
+    public void print2D()
+    {
+        // Loop through all rows
+        for (int[] row : grid)
+ 
+            // converting each row as string
+            // and then printing in a separate line
+            System.out.println(Arrays.toString(row));
+    }
 }

@@ -3,6 +3,7 @@ package sudoku;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -14,11 +15,11 @@ import javax.swing.SwingUtilities;
 
 public class SudokuSolverGUI {
 	
-	public SudokuSolverGUI(SudokuSolver s) {
+	public SudokuSolverGUI(Sudoku s) {
 		SwingUtilities.invokeLater(() -> createWindow(s, "Joaquim och Olles SudokuSolver", 800, 840));
 	}
 	
-	public void createWindow(SudokuSolver sudoku, String title, int width, int height) {
+	public void createWindow(Sudoku sudoku, String title, int width, int height) {
 		JFrame frame = new JFrame(title);
 		Container container = frame.getContentPane();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,14 +41,22 @@ public class SudokuSolverGUI {
 		
         solveButton.addActionListener(event -> {
         	updateSudoku(sudoku, textFields);
+        	sudoku.print2D();
             if (sudoku.solve()) {
                 updateTextFields(sudoku, textFields);
             } else {
                 JOptionPane.showMessageDialog(null, "Unsolvable sudoku", "Could not solve",
                         JOptionPane.ERROR_MESSAGE);
-            }
+            } 
+        	sudoku.print2D();
         });	
-		
+        
+        clearButton.addActionListener(event -> {
+        	sudoku.clear();
+        	updateTextFields(sudoku, textFields);
+        	sudoku.print2D();
+        });
+
 		buttonPanel.setLayout(new BorderLayout());
 		buttonPanel.add(clearButton, BorderLayout.WEST);
 		buttonPanel.add(solveButton, BorderLayout.EAST);
@@ -69,7 +78,7 @@ public class SudokuSolverGUI {
 				if (sudokuGrid[i][j] != 0) {
 					textfields[i][j].setText(Integer.toString(sudokuGrid[i][j]));
 				} else {
-					textfields[i][j].setText(" ");
+					textfields[i][j].setText("");
 				}
 			}
 		}
@@ -77,7 +86,7 @@ public class SudokuSolverGUI {
 	
 	public void updateSudoku(SudokuSolver s, JTextField[][] textfields) {
 		 for (int i = 0; i < 9; i++) {
-	            for (int j = 0; j < j; j++) {
+	            for (int j = 0; j < 9; j++) {
 	            	String text = textfields[i][j].getText();
 	                if (isDigit(text)) {
 	                	s.add(i, j, Integer.parseInt(text));
@@ -93,6 +102,8 @@ public class SudokuSolverGUI {
 			for (int j = 0; j < 9; j++) {
 				JTextField s = new JTextField();
 				textfields[i][j] = s;
+				textfields[i][j].setFont(new Font("SansSerif", Font.BOLD, 30));
+				textfields[i][j].setHorizontalAlignment(JTextField.CENTER);
 				gridPanel.add(textfields[i][j]);
 			}
 		}
@@ -112,7 +123,7 @@ public class SudokuSolverGUI {
                 return false;
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Illegal input. Only numbers 1-9 are allowed. Try again");
+            JOptionPane.showMessageDialog(null, "CATCH. Only numbers 1-9 are allowed. Try again");
             return false;
         }
     }
