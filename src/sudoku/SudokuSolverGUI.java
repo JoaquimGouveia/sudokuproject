@@ -39,7 +39,7 @@ public class SudokuSolverGUI {
 		updateTextFields(sudoku, textFields);		
 		
         solveButton.addActionListener(event -> {
-        	updateSudoku(sudoku, textFields);
+        	if (updateSudoku(sudoku, textFields)) {
         	sudoku.print2D();
             if (sudoku.solve()) {
                 updateTextFields(sudoku, textFields);
@@ -48,6 +48,7 @@ public class SudokuSolverGUI {
                         JOptionPane.ERROR_MESSAGE);
             } 
         	sudoku.print2D();
+        	}
         });	
         
         clearButton.addActionListener(event -> {
@@ -85,18 +86,25 @@ public class SudokuSolverGUI {
 	
 	
 	/** Inserts the values from the textfields (UI) into the sudoku matrix */
-	public void updateSudoku(SudokuSolver s, JTextField[][] textfields) {
+	public boolean updateSudoku(SudokuSolver s, JTextField[][] textfields) {
+		Boolean retVal = true;
 		 for (int i = 0; i < 9; i++) {
 			 for (int j = 0; j < 9; j++) {
 	        	String text = textfields[i][j].getText();
 	        	if (isDigit(text)) {
 	            	s.add(i, j, Integer.parseInt(text));
 	            }
+	        	else if (text.equals("")) {
+	        	}
 	            else {
 	            	s.remove(i, j);
+	            	retVal = false;
+	                JOptionPane.showMessageDialog(null, "Input at row: " + (i + 1) + ", col: " + (j + 1) + " is invalid");
+
 	            }
 	        }
 	    }
+		 return retVal;
 	}
 	
 	/** Creates the textfields used for input */
@@ -126,14 +134,8 @@ public class SudokuSolverGUI {
         }
         try {
             text1 = Integer.parseInt(text);
-            if (text1 < 10 && text1 > 0) {
-                return true;
-            } else {
-                JOptionPane.showMessageDialog(null, "Illegal input. Only numbers 1-9 are allowed. Try again");
-                return false;
-            }
+            return (text1 < 10 && text1 > 0);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "CATCH. Only numbers 1-9 are allowed. Try again");
             return false;
         }
     }
