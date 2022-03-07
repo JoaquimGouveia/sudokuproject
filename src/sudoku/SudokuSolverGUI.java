@@ -40,15 +40,15 @@ public class SudokuSolverGUI {
 		
         solveButton.addActionListener(event -> {
         	if (updateSudoku(sudoku, textFields)) {
-        	sudoku.print2D();
-            if (sudoku.solve()) {
-                updateTextFields(sudoku, textFields);
-            } else {
-                JOptionPane.showMessageDialog(null, "Unsolvable sudoku", "Could not solve",
-                        JOptionPane.ERROR_MESSAGE);
-            } 
-        	sudoku.print2D();
+	        	sudoku.print2D();
+	            if (sudoku.solve()) {
+	                updateTextFields(sudoku, textFields);
+	            } else {
+	                JOptionPane.showMessageDialog(null, "Unsolvable sudoku", "Could not solve",
+	                        JOptionPane.ERROR_MESSAGE);
+	            } 
         	}
+        	sudoku.print2D();
         });	
         
         clearButton.addActionListener(event -> {
@@ -70,7 +70,9 @@ public class SudokuSolverGUI {
 	
 	
 	
-	/** Inserts the values from the sudoku matrix into the textfields (UI) */
+	/** Inserts the values from the sudoku matrix into the textfields (UI)
+	 * @param s The sudoku class
+	 * @param textfields The textField matrix */
 	public void updateTextFields(SudokuSolver s, JTextField[][] textfields) {
 		int[][] sudokuGrid = s.getMatrix();
 		for (int i = 0; i < 9; i++) {
@@ -85,7 +87,10 @@ public class SudokuSolverGUI {
 	}
 	
 	
-	/** Inserts the values from the textfields (UI) into the sudoku matrix */
+	/** Inserts the values from the textfields (UI) into the sudoku matrix
+	 * @param s The sudoku class
+	 * @param textfields The textField matrix 
+	 * @return Returns true if no incorrect input is made. */
 	public boolean updateSudoku(SudokuSolver s, JTextField[][] textfields) {
 		Boolean retVal = true;
 		 for (int i = 0; i < 9; i++) {
@@ -95,6 +100,7 @@ public class SudokuSolverGUI {
 	            	s.add(i, j, Integer.parseInt(text));
 	            }
 	        	else if (text.equals("")) {
+	        		s.remove(i, j);
 	        	}
 	            else {
 	            	s.remove(i, j);
@@ -107,7 +113,9 @@ public class SudokuSolverGUI {
 		 return retVal;
 	}
 	
-	/** Creates the textfields used for input */
+	/** Creates the textfields used for input
+	 * @param gridPanel The gridPanel to insert textfields into
+	 * @param textfields The textField matrix */
 	private void createTextFields(JPanel gridPanel, JTextField[][] textfields) {
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
@@ -126,7 +134,9 @@ public class SudokuSolverGUI {
 		}
 	}
 	
-	/** Checks if the input is a digit */
+	/** Checks if the input is a digit
+	 * @param text The input to check
+	 * @return Returns true if text is convertable into single digit, else false. */
     private boolean isDigit(String text) {
         int text1;
         if (text.equals("")){
