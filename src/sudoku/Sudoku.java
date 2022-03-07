@@ -12,7 +12,10 @@ public class Sudoku implements SudokuSolver{
 	
 	@Override
 	public boolean solve() {
-		return solve(0, 0);
+		if (isValid()) {
+			return solve(0, 0);
+		}
+		else return false;
 	}
 	
 	private boolean solve(int row, int col) {
@@ -136,7 +139,7 @@ public class Sudoku implements SudokuSolver{
 		int byCol = col / 3;
 		
 		for (int i = byRow * 3; i < byRow * 3 + 3; i++) {
-			for (int j = byCol * 3; i < byCol * 3 + 3; i++) {
+			for (int j = byCol * 3; j < byCol * 3 + 3; j++) {
 				if ((row != i || col != j) && grid[i][j] == digit) {
 					return false;
 				}

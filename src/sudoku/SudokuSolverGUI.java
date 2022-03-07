@@ -30,9 +30,9 @@ public class SudokuSolverGUI {
 		JButton clearButton = new JButton("Clear");
 		JTextField[][] textFields = new JTextField[9][9];
 		
-		container.setPreferredSize(new Dimension(800, 800));
+		container.setPreferredSize(new Dimension(600, 600));
 		gridPanel.setLayout(new GridLayout(9, 9));
-		gridPanel.setPreferredSize(new Dimension(720, 720));
+		gridPanel.setPreferredSize(new Dimension(520, 520));
 		
 		createTextFields(gridPanel, textFields);
 		updateTextFields(sudoku, textFields);
@@ -67,7 +67,6 @@ public class SudokuSolverGUI {
 //		frame.pack();
 		frame.setVisible(true);
 	}
-	
 	
 	
 	/** inserts the sudoku matrix into the textfields */
