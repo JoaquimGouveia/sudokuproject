@@ -1,6 +1,7 @@
 package sudoku;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -16,7 +17,7 @@ import javax.swing.SwingUtilities;
 public class SudokuSolverGUI {
 	
 	public SudokuSolverGUI(Sudoku s) {
-		SwingUtilities.invokeLater(() -> createWindow(s, "Joaquim och Olles SudokuSolver", 800, 840));
+		SwingUtilities.invokeLater(() -> createWindow(s, "Joaquim och Olles SudokuSolver", 560, 600));
 	}
 	
 	public void createWindow(Sudoku sudoku, String title, int width, int height) {
@@ -30,14 +31,12 @@ public class SudokuSolverGUI {
 		JButton clearButton = new JButton("Clear");
 		JTextField[][] textFields = new JTextField[9][9];
 		
-		container.setPreferredSize(new Dimension(600, 600));
+		container.setPreferredSize(new Dimension(540, 580));
 		gridPanel.setLayout(new GridLayout(9, 9));
-		gridPanel.setPreferredSize(new Dimension(520, 520));
+		gridPanel.setPreferredSize(new Dimension(540, 540));
 		
 		createTextFields(gridPanel, textFields);
-		updateTextFields(sudoku, textFields);
-//		createTextMatrix(gridPanel, textFields);
-		
+		updateTextFields(sudoku, textFields);		
 		
         solveButton.addActionListener(event -> {
         	updateSudoku(sudoku, textFields);
@@ -69,7 +68,8 @@ public class SudokuSolverGUI {
 	}
 	
 	
-	/** inserts the sudoku matrix into the textfields */
+	
+	/** Inserts the values from the sudoku matrix into the textfields (UI) */
 	public void updateTextFields(SudokuSolver s, JTextField[][] textfields) {
 		int[][] sudokuGrid = s.getMatrix();
 		for (int i = 0; i < 9; i++) {
@@ -83,19 +83,23 @@ public class SudokuSolverGUI {
 		}
 	}
 	
+	
+	/** Inserts the values from the textfields (UI) into the sudoku matrix */
 	public void updateSudoku(SudokuSolver s, JTextField[][] textfields) {
 		 for (int i = 0; i < 9; i++) {
-	            for (int j = 0; j < 9; j++) {
-	            	String text = textfields[i][j].getText();
-	                if (isDigit(text)) {
-	                	s.add(i, j, Integer.parseInt(text));
-	                } else {
-	                    s.remove(i, j);
-	                }
+			 for (int j = 0; j < 9; j++) {
+	        	String text = textfields[i][j].getText();
+	        	if (isDigit(text)) {
+	            	s.add(i, j, Integer.parseInt(text));
 	            }
+	            else {
+	            	s.remove(i, j);
+	            }
+	        }
 	    }
 	}
 	
+	/** Creates the textfields used for input */
 	private void createTextFields(JPanel gridPanel, JTextField[][] textfields) {
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
@@ -104,10 +108,17 @@ public class SudokuSolverGUI {
 				textfields[i][j].setFont(new Font("SansSerif", Font.BOLD, 30));
 				textfields[i][j].setHorizontalAlignment(JTextField.CENTER);
 				gridPanel.add(textfields[i][j]);
+				
+				int checkRow = i / 3;
+				int checkCol = j / 3;
+				if (((checkRow == 0 || checkRow == 2) && (checkCol == 0 || checkCol == 2)) || (checkRow == 1 && checkCol == 1)) {
+					textfields[i][j].setBackground(Color.gray);
+				}
 			}
 		}
 	}
 	
+	/** Checks if the input is a digit */
     private boolean isDigit(String text) {
         int text1;
         if (text.equals("")){
@@ -127,6 +138,4 @@ public class SudokuSolverGUI {
         }
     }
 }
-	
-	//Integer.toString(sudokuGrid[i][j])
 	
