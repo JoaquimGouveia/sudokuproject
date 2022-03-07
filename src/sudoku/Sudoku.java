@@ -48,6 +48,16 @@ public class Sudoku implements SudokuSolver{
 		// Om det inte står en 0 på plats row, col så anropar man bara en en ny solve med de nya värdena
 	}
 
+	
+	/**
+	 * Puts digit in the box row, col.
+	 * 
+	 * @param row   The row
+	 * @param col   The column
+	 * @param digit The digit to insert in box row, col
+	 * @throws IllegalArgumentException if row, col or digit is outside the range
+	 *                                  [0..9]
+	 */
 	@Override
 	public void add(int row, int col, int digit) {
 		if (checkRange(row, col, digit)) {
@@ -57,16 +67,35 @@ public class Sudoku implements SudokuSolver{
 		}
 	}
 
+	/**
+	 * Removes digit in box row, col.
+	 * 
+	 * @param row  The row
+	 * @param col  The col
+	 */
 	@Override
 	public void remove(int row, int col) {
 		grid[row][col] = 0;
 	}
 
+	
+	/**
+	 * Gets the digit in box row, col.
+	 * 
+	 * @param row  The row
+	 * @param col  The col
+	 * @return Get the digit in box row, col
+	 */
 	@Override
 	public int get(int row, int col) {
 		return grid[row][col];
 	}
 
+	/**
+	 * Checks that all filled in digits follows the the sudoku rules.
+	 * 
+	 * @return false if grid contains any value that is different from 0 and does not follow the sudoku rules.
+	 */
 	@Override
 	public boolean isValid() {
 		for (int i = 0; i < 9; i++) {
@@ -80,12 +109,18 @@ public class Sudoku implements SudokuSolver{
 		}
 		return true;
 	}
-
+	
+	/**
+	 * Removes all digits from the grid.
+	 */
 	@Override
 	public void clear() {
 		grid = new int[9][9];	
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	public void setMatrix(int[][] m) {
 		if (m.length != grid.length || m[0].length != grid[0].length) {
